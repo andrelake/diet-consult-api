@@ -30,7 +30,7 @@ public class DietConsultApiApplication {
 			
 			try {
 				
-				foodService.save(foods);
+				foodService.saveDataFromFile(foods);
 				
 			}catch(Exception e) {
 				System.out.println("Erro ao salvar no bd: " + e.getMessage());

@@ -15,7 +15,7 @@ public class FoodService {
 	@Autowired
 	private FoodRepository repository;
 	
-	public void save(List<Food> foods) {
+	public void saveDataFromFile(List<Food> foods) {
 		
 		try {
 			
@@ -25,7 +25,6 @@ public class FoodService {
 		}catch(Exception e) {
 			throw new RuntimeException("Falha ao salvar informaçoes: " + e.getMessage());
 		}
-
 	}
 	
 	public List<Food> getAllFoods() {
