@@ -29,6 +29,15 @@ public class FoodService {
 		return food;
 	}
 	
+	public void saveFood(Food food) {
+		
+		if(food != null) {
+			repository.save(food);
+		} else {
+			throw new NullPointerException("Entidade alimento está em estado 'null'");
+		}
+	}
+	
 	//util
 	public Food findOrFail(Long id) {
 		
