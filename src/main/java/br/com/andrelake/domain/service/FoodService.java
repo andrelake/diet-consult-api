@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.andrelake.domain.exception.FoodNotFoundException;
 import br.com.andrelake.domain.model.Food;
 import br.com.andrelake.domain.repo.FoodRepository;
 import br.com.andrelake.util.FileLoader;
@@ -15,6 +16,27 @@ public class FoodService {
 	@Autowired
 	private FoodRepository repository;
 	
+	
+	public List<Food> getAllFoods() {
+		
+		return repository.findAll();
+	}
+	
+	public Food getFoodById(Long id) {
+		
+		Food food = findOrFail(id);
+		
+		return food;
+	}
+	
+	//util
+	public Food findOrFail(Long id) {
+		
+		return repository.findById(id)
+				.orElseThrow(() -> new FoodNotFoundException(id));
+	}
+	
+	//for file
 	public void saveDataFromFile(List<Food> foods) {
 		
 		try {
@@ -25,10 +47,5 @@ public class FoodService {
 		}catch(Exception e) {
 			throw new RuntimeException("Falha ao salvar informaçoes: " + e.getMessage());
 		}
-	}
-	
-	public List<Food> getAllFoods() {
-		
-		return repository.findAll();
 	}
 }
