@@ -3,8 +3,10 @@ package br.com.andrelake.domain.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import br.com.andrelake.domain.exception.FoodInUseException;
 import br.com.andrelake.domain.exception.FoodNotFoundException;
 import br.com.andrelake.domain.model.Food;
 import br.com.andrelake.domain.repo.FoodRepository;
@@ -29,15 +31,26 @@ public class FoodService {
 		return food;
 	}
 	
-	public void saveFood(Food food) {
+	public Food saveFood(Food food) {
 		
 		if(food != null) {
-			repository.save(food);
+			return repository.save(food);
 		} else {
 			throw new NullPointerException("Entidade alimento está em estado 'null'");
 		}
 	}
 	
+	public void deleteFoodById(Long id) {
+		
+		try {
+			findOrFail(id);
+			repository.deleteById(id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new FoodInUseException(id);
+		}
+		
+	}
 	//util
 	public Food findOrFail(Long id) {
 		
