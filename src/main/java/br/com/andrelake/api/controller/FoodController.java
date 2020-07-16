@@ -2,6 +2,8 @@ package br.com.andrelake.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +55,7 @@ public class FoodController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<FoodDTO> insertFood(@RequestBody FoodDTOInput foodDTOInput) {
+	public ResponseEntity<FoodDTO> insertFood(@RequestBody @Valid FoodDTOInput foodDTOInput) {
 		
 		Food food = disassembler.toDomainObject(foodDTOInput);
 		
@@ -61,7 +63,7 @@ public class FoodController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<FoodDTO> updateFood(@PathVariable Long id, @RequestBody FoodDTOInput foodDTOInput) {
+	public ResponseEntity<FoodDTO> updateFood(@PathVariable Long id, @RequestBody @Valid FoodDTOInput foodDTOInput) {
 		
 		Food oldFood = service.getFoodById(id);
 		
